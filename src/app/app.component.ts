@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {SchemaFormComponent} from './schema-based-form/schema-form.component';
-import {FormLayoutComponent} from './form-layout/form-layout.component';
+import {SchemaFormComponent} from './components/schema-based-form/schema-form.component';
+import {FormLayoutComponent} from './components/form-layout/form-layout.component';
 
 @Component({
   selector: 'app-root',

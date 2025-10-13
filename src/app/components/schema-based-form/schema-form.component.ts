@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {Message} from 'primeng/message';
-import registrationForm from './../schema/sample-schema.json'
-import {Schema} from '../schema/schema';
+import {Schema} from '../../schema/schema';
+import registrationForm from '../../schema/sample-schema.json'
+
 
 @Component({
   selector: 'app-schema-based-form',
