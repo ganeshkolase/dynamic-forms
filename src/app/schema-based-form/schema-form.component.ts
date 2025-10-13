@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {Message} from 'primeng/message';
+import registrationForm from './../schema/sample-schema.json'
+import {Schema} from '../schema/schema';
 
 @Component({
   selector: 'app-schema-based-form',
@@ -11,5 +13,5 @@ import {Message} from 'primeng/message';
   styleUrl: './schema-form.component.scss'
 })
 export class SchemaFormComponent {
-
+  schemaForm: Schema = registrationForm
 }
