@@ -85,6 +85,9 @@
                 </div>
               }
             </div>
+            @if (getError(field.name)) {
+              <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
+            }
           </div>
         }
       }
