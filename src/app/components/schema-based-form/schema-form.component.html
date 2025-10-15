@@ -1,45 +1,54 @@
 <div class="form-layout">
-  <p-message>{{this.schemaForm.title}}</p-message>
-@for(field of this.schemaForm.fields; track field.label) {
-  <div>
-  @switch (field.type) {
-    @case ('text') {
-      <div class="form-element">
-        <label>{{ field.label }}</label>
-        <input type="text" pInputText/>
-      </div>
-    }
-    @case ('email') {
-      <div class="form-element">
-        <label>{{ field.label }}</label>
-        <input pInputText id="email" autocomplete="off"/>
-      </div>
-    }
-    @case ('date') {
-      <div class="form-element">
-        <label>{{ field.label }}</label>
-        <p-datePicker/>
-      </div>
-    }
-    @case ('dropdown') {
-      <div class="form-element">
-        <label>{{field.label}}</label>
-        <p-select [placeholder]="'Select ' + field.label" [options]="field.options" />
-      </div>
-    }
-    @case ('multiselect') {
-      <div class="form-element">
-        <label>{{field.label}}</label>
-        <p-multiSelect [placeholder]="'Select ' + field.label" [options]="field.options" />
-      </div>
-    }
-    @case ('checkbox') {
-      <div class="checkbox-label">
-        <p-checkbox [inputId]="field.name" [name]="field.name" [(ngModel)]="isChecked" [binary]="true" />
-        <label [for]="field.name" class="ml-2"> {{field.label}} </label>
-      </div>
-    }
+  <p-message>{{ this.schemaForm.title }}</p-message>
+  @for (field of this.schemaForm.fields; track field.label) {
+    <div>
+      @switch (field.type) {
+        @case ('text') {
+          <div class="form-element">
+            <label>{{ field.label }}</label>
+            <input type="text" pInputText/>
+          </div>
+        }
+        @case ('email') {
+          <div class="form-element">
+            <label>{{ field.label }}</label>
+            <input pInputText id="email" autocomplete="off"/>
+          </div>
+        }
+        @case ('date') {
+          <div class="form-element">
+            <label>{{ field.label }}</label>
+            <p-datePicker/>
+          </div>
+        }
+        @case ('dropdown') {
+          <div class="form-element">
+            <label>{{ field.label }}</label>
+            <p-select [placeholder]="'Select ' + field.label" [options]="field.options"/>
+          </div>
+        }
+        @case ('multiselect') {
+          <div class="form-element">
+            <label>{{ field.label }}</label>
+            <p-multiSelect [placeholder]="'Select ' + field.label" [options]="field.options"/>
+          </div>
+        }
+        @case ('checkbox') {
+          <div class="form-element">
+            <div class="checkbox-label">
+              <p-checkbox [inputId]="field.name" [name]="field.name" [(ngModel)]="isChecked" [binary]="true"/>
+              <label [for]="field.name" class="ml-2"> {{ field.label }} </label>
+            </div>
+          </div>
+        }
+        @case ('textarea') {
+          <div class="form-element">
+            <label>{{ field.label }}</label>
+            <textarea rows="5" cols="30" pTextarea [autoResize]="true"></textarea>
+          </div>
+        }
+      }
+    </div>
   }
-  </div>
-}
+  <p-button>Submit</p-button>
 </div>

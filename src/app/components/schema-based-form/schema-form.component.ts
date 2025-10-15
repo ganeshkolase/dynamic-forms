@@ -8,6 +8,8 @@ import {Select} from 'primeng/select';
 import {MultiSelect} from 'primeng/multiselect';
 import {Checkbox} from 'primeng/checkbox';
 import {FormsModule} from '@angular/forms';
+import {Textarea} from 'primeng/textarea';
+import {Button} from 'primeng/button';
 
 
 @Component({
@@ -19,7 +21,9 @@ import {FormsModule} from '@angular/forms';
     Select,
     MultiSelect,
     Checkbox,
-    FormsModule
+    FormsModule,
+    Textarea,
+    Button
   ],
   templateUrl: './schema-form.component.html',
   standalone: true,
