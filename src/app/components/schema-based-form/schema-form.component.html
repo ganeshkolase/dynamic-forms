@@ -36,7 +36,7 @@
         @case ('checkbox') {
           <div class="form-element">
             <div class="checkbox-label">
-              <p-checkbox [inputId]="field.name" [name]="field.name" [binary]="true"/>
+              <p-checkbox [inputId]="field.name" [name]="field.name" [formControlName]="field.name" [binary]="true"/>
               <label [for]="field.name" class="ml-2"> {{ field.label }} </label>
             </div>
           </div>
