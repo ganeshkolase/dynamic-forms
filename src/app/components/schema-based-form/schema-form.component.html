@@ -35,7 +35,7 @@
     }
     @case ('checkbox') {
       <div class="checkbox-label">
-        <p-checkbox [inputId]="field.name" [name]="field.name" [(ngModel)]="isChecked" />
+        <p-checkbox [inputId]="field.name" [name]="field.name" [(ngModel)]="isChecked" [binary]="true" />
         <label [for]="field.name" class="ml-2"> {{field.label}} </label>
       </div>
     }
