@@ -58,6 +58,9 @@ export class SchemaFormComponent implements OnInit {
       if (field?.required) {
         validators.push(Validators.required)
       }
+      if (field?.validation) {
+        validators.push(Validators.pattern(field.validation.pattern))
+      }
       dynamicFormGroup[field.name] = new FormControl('', validators);
     }
     this.dynamicForm = this.formBuilder.group(dynamicFormGroup);

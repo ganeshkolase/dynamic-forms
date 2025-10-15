@@ -12,8 +12,8 @@ export type FormFieldType =
  'textarea' | 'email'
 
 export type FormValidation = {
-  pattern?: string;
-  message?: string;
+  pattern: string;
+  message: string;
 };
 
 type FormField = {

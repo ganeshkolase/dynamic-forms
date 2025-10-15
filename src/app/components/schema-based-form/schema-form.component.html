@@ -6,7 +6,7 @@
         @case ('text') {
           <div class="form-element">
             <label>{{ field.label }}</label>
-            <input type="text" pInputText [formControlName]="field.name" />
+            <input type="text" id="text" pInputText [formControlName]="field.name" />
             @if (getError(field.name)) {
               <p-message severity="error" size="small" variant="simple">{{getError(field.name)}}</p-message>
             }
