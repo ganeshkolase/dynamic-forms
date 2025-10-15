@@ -65,7 +65,12 @@ export class SchemaFormComponent implements OnInit {
 
 
   onSubmit() {
-    console.log('formValue', this.dynamicForm.value)
+    this.dynamicForm.markAllAsTouched();
+    if (this.dynamicForm.valid) {
+      console.log('Form submitted:', this.dynamicForm.value);
+    } else {
+      console.log('Invalid form')
+    }
   }
 
   getError(fieldName: string): string | null {
