@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Message} from 'primeng/message';
 import {FormSchema} from '../../schema/schema';
-import {productFeedbackSchema} from '../../schema';
 import {InputText} from 'primeng/inputtext';
 import {DatePicker} from 'primeng/datepicker';
 import {Select} from 'primeng/select';
@@ -41,7 +40,7 @@ import {RadioButton} from 'primeng/radiobutton';
   styleUrl: './schema-form.component.scss'
 })
 export class SchemaFormComponent implements OnInit {
-  formSchema: FormSchema = productFeedbackSchema as FormSchema;
+  @Input() formSchema!: FormSchema
   dynamicForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {

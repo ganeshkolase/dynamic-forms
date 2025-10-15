@@ -1,3 +1,22 @@
 <app-form-layout>
-  <app-schema-based-form />
+  <p-tabs value="0">
+    <p-tablist>
+      <p-tab value="0">
+        <i class="pi pi-user"></i>
+        User Registration
+      </p-tab>
+      <p-tab value="1">
+        <i class="pi pi-send"></i>
+        Product Feedback
+      </p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel value="0">
+        <app-schema-based-form [formSchema]="userRegistrationSchema"  />
+      </p-tabpanel>
+      <p-tabpanel value="1">
+        <app-schema-based-form [formSchema]="productRegistrationSchema" />
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
 </app-form-layout>
