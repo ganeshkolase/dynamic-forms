@@ -6,31 +6,46 @@
         @case ('text') {
           <div class="form-element">
             <label>{{ field.label }}</label>
-            <input type="text" pInputText [formControlName]="field.name"/>
+            <input type="text" pInputText [formControlName]="field.name" />
+            @if (getError(field.name)) {
+              <p-message severity="error" size="small" variant="simple">{{getError(field.name)}}</p-message>
+            }
           </div>
         }
         @case ('email') {
           <div class="form-element">
             <label>{{ field.label }}</label>
             <input pInputText id="email" autocomplete="off" [formControlName]="field.name"/>
+            @if (getError(field.name)) {
+              <p-message severity="error" size="small" variant="simple">{{getError(field.name)}}</p-message>
+            }
           </div>
         }
         @case ('date') {
           <div class="form-element">
             <label>{{ field.label }}</label>
             <p-datePicker [formControlName]="field.name"/>
+            @if (getError(field.name)) {
+              <p-message severity="error" size="small" variant="simple">{{getError(field.name)}}</p-message>
+            }
           </div>
         }
         @case ('dropdown') {
           <div class="form-element">
             <label>{{ field.label }}</label>
             <p-select [placeholder]="'Select ' + field.label" [options]="field.options" [formControlName]="field.name"/>
+            @if (getError(field.name)) {
+              <p-message severity="error" size="small" variant="simple">{{getError(field.name)}}</p-message>
+            }
           </div>
         }
         @case ('multiselect') {
           <div class="form-element">
             <label>{{ field.label }}</label>
             <p-multiSelect [placeholder]="'Select ' + field.label" [options]="field.options" [formControlName]="field.name"/>
+            @if (getError(field.name)) {
+              <p-message severity="error" size="small" variant="simple">{{getError(field.name)}}</p-message>
+            }
           </div>
         }
         @case ('checkbox') {
@@ -38,6 +53,9 @@
             <div class="checkbox-label">
               <p-checkbox [inputId]="field.name" [name]="field.name" [formControlName]="field.name" [binary]="true"/>
               <label [for]="field.name" class="ml-2"> {{ field.label }} </label>
+              @if (getError(field.name)) {
+                <p-message severity="error" size="small" variant="simple">{{getError(field.name)}}</p-message>
+              }
             </div>
           </div>
         }
@@ -45,10 +63,13 @@
           <div class="form-element">
             <label>{{ field.label }}</label>
             <textarea rows="5" cols="35" pTextarea [autoResize]="true" [formControlName]="field.name"></textarea>
+            @if (getError(field.name)) {
+              <p-message severity="error" size="small" variant="simple">{{getError(field.name)}}</p-message>
+            }
           </div>
         }
       }
     </div>
   }
-  <p-button type="submit" label="Submit" />
+  <p-button type="submit" fluid label="Submit" />
 </form>

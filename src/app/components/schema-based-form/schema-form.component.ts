@@ -7,7 +7,15 @@ import {DatePicker} from 'primeng/datepicker';
 import {Select} from 'primeng/select';
 import {MultiSelect} from 'primeng/multiselect';
 import {Checkbox} from 'primeng/checkbox';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {Textarea} from 'primeng/textarea';
 import {Button} from 'primeng/button';
 
@@ -34,9 +42,8 @@ export class SchemaFormComponent implements OnInit {
   formSchema: FormSchema = userRegistrationSchema as FormSchema;
   dynamicForm!: FormGroup;
 
-  isChecked: boolean = true;
-
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {
+  }
 
   ngOnInit() {
     this.buildForm()
@@ -46,13 +53,33 @@ export class SchemaFormComponent implements OnInit {
     const dynamicFormGroup: { [key: string]: FormControl } = {};
 
     for (const field of this.formSchema.fields) {
-      dynamicFormGroup[field.name] = new FormControl('');
+      const validators: ValidatorFn[] = []
+
+      if (field?.required) {
+        validators.push(Validators.required)
+      }
+      dynamicFormGroup[field.name] = new FormControl('', validators);
     }
     this.dynamicForm = this.formBuilder.group(dynamicFormGroup);
   }
+
 
   onSubmit() {
     console.log('formValue', this.dynamicForm.value)
   }
 
+  getError(fieldName: string): string | null {
+    const control = this.dynamicForm.get(fieldName);
+    const field = this.formSchema.fields.find(f => f.name === fieldName);
+    if (!control || !control.errors || !control.touched) return null;
+
+    if (control.errors['required']) {
+      return `Field is required.`;
+    }
+    if (control.errors['pattern']) {
+      return field?.validation?.message || `${field?.label} is invalid.`;
+    }
+
+    return null;
+  }
 }
