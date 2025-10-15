@@ -15,3 +15,13 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+.radio-group {
+  display: flex;
+  gap: 2rem;
+}
+
+.radio-group > div {
+  display: flex;
+  gap: 0.5rem;
+}

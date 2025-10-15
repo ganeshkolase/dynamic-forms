@@ -9,7 +9,7 @@ export type FormFieldType =
  'dropdown'|
  'multiselect'|
  'checkbox' |
- 'textarea' | 'email'
+ 'textarea' | 'email' | 'radiobutton'
 
 export type FormValidation = {
   pattern: string;
@@ -21,6 +21,8 @@ type FormField = {
   name: string;
   type: FormFieldType;
   required?: boolean;
+  minLength?: number;
+  maxLength?: number;
   options?: string[];
   validation?: FormValidation;
 }

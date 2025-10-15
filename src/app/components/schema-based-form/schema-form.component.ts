@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Message} from 'primeng/message';
 import {FormSchema} from '../../schema/schema';
-import {userRegistrationSchema} from '../../schema/form-schems';
+import {productFeedbackSchema} from '../../schema';
 import {InputText} from 'primeng/inputtext';
 import {DatePicker} from 'primeng/datepicker';
 import {Select} from 'primeng/select';
@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import {Textarea} from 'primeng/textarea';
 import {Button} from 'primeng/button';
+import {RadioButton} from 'primeng/radiobutton';
 
 
 @Component({
@@ -32,14 +33,15 @@ import {Button} from 'primeng/button';
     FormsModule,
     Textarea,
     Button,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RadioButton
   ],
   templateUrl: './schema-form.component.html',
   standalone: true,
   styleUrl: './schema-form.component.scss'
 })
 export class SchemaFormComponent implements OnInit {
-  formSchema: FormSchema = userRegistrationSchema as FormSchema;
+  formSchema: FormSchema = productFeedbackSchema as FormSchema;
   dynamicForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
@@ -61,6 +63,15 @@ export class SchemaFormComponent implements OnInit {
       if (field?.validation) {
         validators.push(Validators.pattern(field.validation.pattern))
       }
+
+      if (field?.minLength) {
+        validators.push(Validators.minLength(field.minLength))
+      }
+
+      if (field?.maxLength) {
+        validators.push(Validators.maxLength(field.maxLength))
+      }
+
       dynamicFormGroup[field.name] = new FormControl('', validators);
     }
     this.dynamicForm = this.formBuilder.group(dynamicFormGroup);
@@ -70,22 +81,35 @@ export class SchemaFormComponent implements OnInit {
   onSubmit() {
     this.dynamicForm.markAllAsTouched();
     if (this.dynamicForm.valid) {
-      console.log('Form submitted:', this.dynamicForm.value);
+      console.log('formValue', this.dynamicForm.value)
     } else {
-      console.log('Invalid form')
+      console.error('Invalid form')
     }
   }
 
   getError(fieldName: string): string | null {
     const control = this.dynamicForm.get(fieldName);
     const field = this.formSchema.fields.find(f => f.name === fieldName);
-    if (!control || !control.errors || !control.touched) return null;
+    if (field) {
+      if (!control || !control.errors || !control.touched) return null;
 
-    if (control.errors['required']) {
-      return `Field is required.`;
-    }
-    if (control.errors['pattern']) {
-      return field?.validation?.message || `${field?.label} is invalid.`;
+      console.log('errors', control.errors)
+
+      if (control.errors['required']) {
+        return `Field is required.`;
+      }
+
+      if (control.errors['pattern']) {
+        return field?.validation?.message || `${field?.label} is invalid.`;
+      }
+
+      if (control.errors['minlength']) {
+        return `${field.label} name must be at least ${field.minLength} characters long`;
+      }
+
+      if (control.errors['maxlength']) {
+        return `${field.label} cannot exceed ${field.minLength} characters`;
+      }
     }
 
     return null;
