@@ -4,17 +4,22 @@ export type FormSchema = {
 }
 
 export type FormFieldType =
- 'text' |
- 'date' |
- 'dropdown'|
- 'multiselect'|
- 'checkbox' |
- 'textarea' | 'email' | 'radiobutton'
+  'text' |
+  'date' |
+  'dropdown' |
+  'multiselect' |
+  'checkbox' |
+  'textarea' | 'email' | 'radiobutton'
 
 export type FormValidation = {
   pattern: string;
   message: string;
 };
+
+export type Condition = {
+  fieldName: string;
+  value: string | boolean | number | Date | Array<string | boolean | number | Date>;
+}
 
 type FormField = {
   label: string;
@@ -25,4 +30,5 @@ type FormField = {
   maxLength?: number;
   options?: string[];
   validation?: FormValidation;
+  condition?: Condition
 }

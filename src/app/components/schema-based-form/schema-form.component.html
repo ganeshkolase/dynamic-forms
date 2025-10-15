@@ -1,97 +1,79 @@
 <form class="form-layout" [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
   <p-message>{{ this.formSchema.title }}</p-message>
   @for (field of this.formSchema.fields; track field.label) {
-    <div>
-      @switch (field.type) {
-        @case ('text') {
-          <div class="form-element">
-            <label>{{ field.label }}</label>
-            <input type="text" id="text" pInputText [formControlName]="field.name"/>
-            @if (getError(field.name)) {
-              <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
-            }
-          </div>
-        }
-        @case ('email') {
-          <div class="form-element">
-            <label>{{ field.label }}</label>
-            <input pInputText id="email" autocomplete="off" [formControlName]="field.name"/>
-            @if (getError(field.name)) {
-              <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
-            }
-          </div>
-        }
-        @case ('date') {
-          <div class="form-element">
-            <label>{{ field.label }}</label>
-            <p-datePicker [formControlName]="field.name"/>
-            @if (getError(field.name)) {
-              <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
-            }
-          </div>
-        }
-        @case ('dropdown') {
-          <div class="form-element">
-            <label>{{ field.label }}</label>
-            <p-select [placeholder]="'Select ' + field.label" [options]="field.options" [formControlName]="field.name"/>
-            @if (getError(field.name)) {
-              <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
-            }
-          </div>
-        }
-        @case ('multiselect') {
-          <div class="form-element">
-            <label>{{ field.label }}</label>
-            <p-multiSelect [placeholder]="'Select ' + field.label" [options]="field.options"
-                           [formControlName]="field.name"/>
-            @if (getError(field.name)) {
-              <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
-            }
-          </div>
-        }
-        @case ('checkbox') {
-          <div class="form-element">
-            <div class="checkbox-label">
-              <p-checkbox [inputId]="field.name" [name]="field.name" [formControlName]="field.name" [binary]="true"/>
-              <label [for]="field.name" class="ml-2"> {{ field.label }} </label>
+    @if(isFieldVisible(field)) {
+      <div>
+        @switch (field.type) {
+          @case ('text') {
+            <div class="form-element">
+              <label>{{ field.label }}</label>
+              <input type="text" id="text" pInputText [formControlName]="field.name"/>
               @if (getError(field.name)) {
                 <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
               }
             </div>
-          </div>
-        }
-        @case ('textarea') {
-          <div class="form-element">
-            <label>{{ field.label }}</label>
-            <textarea rows="5" cols="35" pTextarea [autoResize]="true" [formControlName]="field.name"></textarea>
-            @if (getError(field.name)) {
-              <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
-            }
-          </div>
-        }
-        @case ('radiobutton') {
-          <div class="form-element">
-            <label>{{ field.label }}</label>
-            <div class="radio-group">
-              @for (option of field.options; track $index) {
-                <div>
-                  <p-radioButton
-                    [name]="field.name"
-                    [value]="option"
-                    [formControlName]="field.name"
-                    [inputId]="field.name + '_' + option"
-                  ></p-radioButton>
-                  <label [for]="field.name + '_' + option">{{ option }}</label>
-                </div>
+          }
+          @case ('email') {
+            <div class="form-element">
+              <label>{{ field.label }}</label>
+              <input pInputText id="email" autocomplete="off" [formControlName]="field.name"/>
+              @if (getError(field.name)) {
+                <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
               }
             </div>
-            @if (getError(field.name)) {
-              <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
-            }
-          </div>
+          }
+          @case ('date') {
+            <div class="form-element">
+              <label>{{ field.label }}</label>
+              <p-datePicker [formControlName]="field.name"/>
+              @if (getError(field.name)) {
+                <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
+              }
+            </div>
+          }
+          @case ('dropdown') {
+            <div class="form-element">
+              <label>{{ field.label }}</label>
+              <p-select [placeholder]="'Select ' + field.label" [options]="field.options" [formControlName]="field.name"/>
+              @if (getError(field.name)) {
+                <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
+              }
+            </div>
+          }
+          @case ('multiselect') {
+            <div class="form-element">
+              <label>{{ field.label }}</label>
+              <p-multiSelect [placeholder]="'Select ' + field.label" [options]="field.options"
+                             [formControlName]="field.name"/>
+              @if (getError(field.name)) {
+                <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
+              }
+            </div>
+          }
+          @case ('checkbox') {
+            <div class="form-element">
+              <div class="checkbox-label">
+                <p-checkbox [inputId]="field.name" [name]="field.name" [formControlName]="field.name" [binary]="true"/>
+                <label [for]="field.name" class="ml-2"> {{ field.label }} </label>
+                @if (getError(field.name)) {
+                  <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
+                }
+              </div>
+            </div>
+          }
+          @case ('textarea') {
+            <div class="form-element">
+              <label>{{ field.label }}</label>
+              <textarea rows="5" cols="35" pTextarea [autoResize]="true" [formControlName]="field.name"></textarea>
+              @if (getError(field.name)) {
+                <p-message severity="error" size="small" variant="simple">{{ getError(field.name) }}</p-message>
+              }
+            </div>
+          }
         }
-      }
-    </div>
+      </div>
+    }
+
   }
   <p-button type="submit" fluid label="Submit"/>
 </form>

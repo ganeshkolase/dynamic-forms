@@ -1,72 +1,52 @@
 {
-  "title": "Product Feedback Form",
+  "title": "Job Application",
   "fields": [
     {
-      "label": "Product Name",
-      "name": "productName",
+      "label": "Full Name",
+      "name": "fullName",
       "type": "text",
+      "required": true
+    },
+    {
+      "label": "Email",
+      "name": "email",
+      "type": "email",
       "required": true,
-      "minLength": 3
+      "validation": {
+        "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",
+        "message": "Invalid email address"
+      }
     },
     {
-      "label": "Purchase Date",
-      "name": "purchaseDate",
-      "type": "date",
-      "required": true
-    },
-    {
-      "label": "Product Category",
-      "name": "category",
+      "label": "Job Role",
+      "name": "jobRole",
       "type": "dropdown",
+      "required": true,
       "options": [
-        "Electronics",
-        "Clothing",
-        "Home Appliances",
-        "Books",
+        "Frontend Developer",
+        "Backend Developer",
+        "Designer",
         "Other"
-      ],
-      "required": true
-    },
-    {
-      "label": "Features you liked",
-      "name": "likedFeatures",
-      "type": "multiselect",
-      "options": [
-        "Design",
-        "Durability",
-        "Price",
-        "Ease of Use",
-        "Performance"
       ]
     },
     {
-      "label": "Rating",
-      "name": "rating",
-      "type": "dropdown",
-      "options": [
-        "1 - Poor",
-        "2 - Fair",
-        "3 - Good",
-        "4 - Very Good",
-        "5 - Excellent"
-      ],
-      "required": true
+      "label": "Please specify your role",
+      "name": "customRole",
+      "type": "text",
+      "required": true,
+      "condition": {
+        "fieldName": "jobRole",
+        "value": "Other"
+      }
     },
     {
-      "label": "Would you recommend this product?",
-      "name": "recommend",
-      "type": "radiobutton",
-      "options": [
-        "Yes",
-        "No"
-      ],
-      "required": true
-    },
-    {
-      "label": "Additional Comments",
-      "name": "comments",
-      "type": "textarea",
-      "maxLength": 250
+      "label": "Portfolio Link (Optional)",
+      "name": "portfolio",
+      "type": "text",
+      "validation": {
+        "pattern": "^(https?:\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/\\S*)?$",
+        "message": "Enter a valid URL"
+      }
     }
   ]
 }

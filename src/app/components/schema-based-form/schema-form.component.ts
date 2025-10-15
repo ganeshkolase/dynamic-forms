@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {Message} from 'primeng/message';
-import {FormSchema} from '../../schema/schema';
+import {FormField, FormSchema} from '../../schema/schema';
 import {InputText} from 'primeng/inputtext';
 import {DatePicker} from 'primeng/datepicker';
 import {Select} from 'primeng/select';
@@ -17,7 +17,6 @@ import {
 } from '@angular/forms';
 import {Textarea} from 'primeng/textarea';
 import {Button} from 'primeng/button';
-import {RadioButton} from 'primeng/radiobutton';
 
 
 @Component({
@@ -33,7 +32,6 @@ import {RadioButton} from 'primeng/radiobutton';
     Textarea,
     Button,
     ReactiveFormsModule,
-    RadioButton
   ],
   templateUrl: './schema-form.component.html',
   standalone: true,
@@ -43,37 +41,54 @@ export class SchemaFormComponent implements OnInit {
   @Input() formSchema!: FormSchema
   dynamicForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.buildForm()
+    this.formSchema.fields.forEach(field => {
+      if (field.condition) {
+        const parentControl = this.dynamicForm.get(field.condition.fieldName);
+        if (parentControl) {
+          parentControl.valueChanges.subscribe(() => {
+            this.cdr.detectChanges();
+          });
+        }
+      }
+    });
   }
 
   private buildForm() {
     const dynamicFormGroup: { [key: string]: FormControl } = {};
 
     for (const field of this.formSchema.fields) {
-      const validators: ValidatorFn[] = []
 
-      if (field?.required) {
-        validators.push(Validators.required)
-      }
-      if (field?.validation) {
-        validators.push(Validators.pattern(field.validation.pattern))
-      }
-
-      if (field?.minLength) {
-        validators.push(Validators.minLength(field.minLength))
-      }
-
-      if (field?.maxLength) {
-        validators.push(Validators.maxLength(field.maxLength))
-      }
-
-      dynamicFormGroup[field.name] = new FormControl('', validators);
+      let fieldValidators = this.getValidators(field);
+      dynamicFormGroup[field.name] = new FormControl('', fieldValidators);
     }
+
     this.dynamicForm = this.formBuilder.group(dynamicFormGroup);
+  }
+
+  private getValidators(field: FormField) {
+    const validators: ValidatorFn[] = []
+
+    if (field?.required) {
+      validators.push(Validators.required)
+    }
+    if (field?.validation) {
+      validators.push(Validators.pattern(field.validation.pattern))
+    }
+
+    if (field?.minLength) {
+      validators.push(Validators.minLength(field.minLength))
+    }
+
+    if (field?.maxLength) {
+      validators.push(Validators.maxLength(field.maxLength))
+    }
+
+    return validators
   }
 
 
@@ -91,8 +106,6 @@ export class SchemaFormComponent implements OnInit {
     const field = this.formSchema.fields.find(f => f.name === fieldName);
     if (field) {
       if (!control || !control.errors || !control.touched) return null;
-
-      console.log('errors', control.errors)
 
       if (control.errors['required']) {
         return `Field is required.`;
@@ -112,5 +125,20 @@ export class SchemaFormComponent implements OnInit {
     }
 
     return null;
+  }
+
+  isFieldVisible(conditionalField: FormField): boolean {
+    if (!conditionalField?.condition) return true;
+    if (!this.formSchema || !this.dynamicForm) return true;
+
+    let conditionalFieldName = conditionalField.name;
+    const field = this.formSchema.fields.find(f => f.name === conditionalFieldName);
+    if (!field?.condition) return true;
+    const parentControl = this.dynamicForm.get(field.condition.fieldName);
+    if (!parentControl) return false;
+
+    const dependentValue = parentControl.value;
+    const expectedValue = field.condition.value;
+    return dependentValue === expectedValue;
   }
 }
