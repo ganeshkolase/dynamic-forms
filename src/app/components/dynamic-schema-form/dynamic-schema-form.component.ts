@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Message} from 'primeng/message';
 import {FormField, FormSchema} from '../../data/schema';
 import {InputText} from 'primeng/inputtext';
@@ -35,7 +35,7 @@ import {DynamicFormService} from '../../services/dynamic-form.service';
   standalone: true,
   styleUrl: './dynamic-schema-form.component.scss'
 })
-export class DynamicSchemaFormComponent implements OnInit {
+export class DynamicSchemaFormComponent implements OnInit, OnChanges {
   @Input() formSchema!: FormSchema
   @Output() onFormSubmit = new EventEmitter<Record<string, any>>();
   dynamicForm!: FormGroup;
@@ -57,6 +57,24 @@ export class DynamicSchemaFormComponent implements OnInit {
         }
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['formSchema'] && !changes['formSchema'].firstChange) {
+      this.dynamicForm = this.dynamicFormService.buildForm(this.formSchema);
+
+      this.formSchema.fields.forEach(field => {
+        if (field.condition) {
+          const parentControl = this.dynamicForm.get(field.condition.fieldName);
+          if (parentControl) {
+            parentControl.valueChanges.subscribe(value => {
+              const visible = value === field.condition!.value;
+              this.toggleFieldVisibility(field, visible);
+            });
+          }
+        }
+      });
+    }
   }
 
   toggleFieldVisibility(field: FormField, visible: boolean) {

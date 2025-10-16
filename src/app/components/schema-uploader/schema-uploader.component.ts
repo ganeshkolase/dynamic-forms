@@ -160,10 +160,4 @@ export class SchemaUploaderComponent {
     this.isValid = false;
   }
 
-  clearUpload(): void {
-    this.uploadedSchema = null;
-    this.validationErrors = [];
-    this.isValid = false;
-    this.fileName = '';
-  }
 }

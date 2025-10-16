@@ -38,6 +38,6 @@ export class AppComponent {
   }
 
   onSchemaLoaded(schema: FormSchema) {
-    this.uploadedSchema = schema;
+    this.uploadedSchema = {...schema};
   }
 }
