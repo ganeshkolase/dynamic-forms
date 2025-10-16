@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Message} from 'primeng/message';
 import {FormField, FormSchema} from '../../schema/schema';
 import {InputText} from 'primeng/inputtext';
@@ -39,6 +39,7 @@ import {Button} from 'primeng/button';
 })
 export class SchemaFormComponent implements OnInit {
   @Input() formSchema!: FormSchema
+  @Output() onFormSubmit = new EventEmitter<Record<string, any>>();
   dynamicForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
@@ -46,6 +47,29 @@ export class SchemaFormComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm()
+
+    this.formSchema.fields.forEach(field => {
+      if (field.condition) {
+        const parentControl = this.dynamicForm.get(field.condition.fieldName);
+        if (parentControl) {
+          parentControl.valueChanges.subscribe(value => {
+            const visible = value === field.condition!.value;
+            this.toggleFieldVisibility(field, visible);
+          });
+        }
+      }
+    });
+  }
+
+  toggleFieldVisibility(field: FormField, visible: boolean) {
+    const controlExists = this.dynamicForm.contains(field.name);
+
+    if (visible && !controlExists) {
+      this.dynamicForm.addControl(field.name, new FormControl('', this.getValidators(field)));
+    }
+    else if (!visible && controlExists) {
+      this.dynamicForm.removeControl(field.name);
+    }
   }
 
   private buildForm() {
@@ -85,7 +109,7 @@ export class SchemaFormComponent implements OnInit {
   onSubmit() {
     this.dynamicForm.markAllAsTouched();
     if (this.dynamicForm.valid) {
-      console.log('formValue', this.dynamicForm.value)
+      this.onFormSubmit.emit(this.dynamicForm.value);
     } else {
       console.error('Invalid form')
     }

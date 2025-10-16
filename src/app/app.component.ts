@@ -17,4 +17,8 @@ export class AppComponent {
   title = 'dynamic-forms';
   userRegistrationSchema = userRegistrationSchema as FormSchema;
   productRegistrationSchema = productFeedbackSchema as FormSchema;
+
+  onFormSubmit(data: Record<string, any>) {
+    console.log('onFormSubmit', data);
+  }
 }
