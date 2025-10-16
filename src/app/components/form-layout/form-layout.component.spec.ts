@@ -15,48 +15,6 @@ import { FormLayoutComponent } from './form-layout.component';
 class TestWrapperComponent {}
 
 describe('FormLayoutComponent', () => {
-  let component: FormLayoutComponent;
-  let fixture: ComponentFixture<FormLayoutComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [FormLayoutComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(FormLayoutComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should render the component', () => {
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.dynamic-form-layout')).toBeTruthy();
-  });
-
-  it('should have correct CSS class', () => {
-    const compiled = fixture.nativeElement;
-    const layoutDiv = compiled.querySelector('div');
-    expect(layoutDiv.classList.contains('dynamic-form-layout')).toBe(true);
-  });
-
-  describe('Component Structure', () => {
-    it('should be a standalone component', () => {
-      expect(FormLayoutComponent).toBeDefined();
-    });
-
-    it('should have correct selector', () => {
-      const metadata = (FormLayoutComponent as any).ɵcmp;
-      expect(metadata.selectors[0][0]).toBe('app-form-layout');
-    });
-  });
-});
-
-describe('FormLayoutComponent - Content Projection', () => {
   let wrapperFixture: ComponentFixture<TestWrapperComponent>;
 
   beforeEach(async () => {
@@ -68,17 +26,13 @@ describe('FormLayoutComponent - Content Projection', () => {
     wrapperFixture.detectChanges();
   });
 
-  it('should project content into ng-content', () => {
-    const compiled = wrapperFixture.nativeElement;
-    const projectedContent = compiled.querySelector('.test-content');
-    expect(projectedContent).toBeTruthy();
-    expect(projectedContent.textContent).toContain('Test Content');
-  });
-
-  it('should wrap projected content in layout div', () => {
+  it('should render projected content inside form layout wrapper', () => {
     const compiled = wrapperFixture.nativeElement;
     const layoutDiv = compiled.querySelector('.dynamic-form-layout');
     const projectedContent = layoutDiv.querySelector('.test-content');
+
+    expect(layoutDiv).toBeTruthy();
     expect(projectedContent).toBeTruthy();
+    expect(projectedContent.textContent).toContain('Test Content');
   });
 });
