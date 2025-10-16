@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import { FormBuilder, Validators } from '@angular/forms';
-import { DynamicFormService } from './dynamic-form.service';
-import { FormField, FormSchema } from '../data/schema';
+import {TestBed} from '@angular/core/testing';
+import {FormBuilder, Validators} from '@angular/forms';
+import {DynamicFormService} from './dynamic-form.service';
+import {FormField, FormSchema} from '../data/schema';
 import {
-  mockSimpleSchema,
-  mockSchemaWithValidation,
   mockSchemaWithConditionalField,
-  mockSchemaWithMultipleFieldTypes
+  mockSchemaWithMultipleFieldTypes,
+  mockSchemaWithValidation,
+  mockSimpleSchema
 } from '../testing/mock-schemas';
 
 describe('DynamicFormService', () => {
@@ -66,7 +66,7 @@ describe('DynamicFormService', () => {
       const validators = service.getValidators(field);
 
       expect(validators.length).toBe(1);
-      // Check if pattern validator is present
+
       const control = formBuilder.control('', validators);
       control.setValue('invalid-email');
       expect(control.hasError('pattern')).toBe(true);
@@ -126,7 +126,7 @@ describe('DynamicFormService', () => {
 
       const validators = service.getValidators(field);
 
-      expect(validators.length).toBe(4); // required, pattern, minLength, maxLength
+      expect(validators.length).toBe(4);
     });
   });
 
@@ -145,23 +145,21 @@ describe('DynamicFormService', () => {
       const nameControl = form.get('name');
       const emailControl = form.get('email');
 
-      // Test required validator
+
       nameControl?.setValue('');
       expect(nameControl?.hasError('required')).toBe(true);
 
-      // Test minLength validator
+
       nameControl?.setValue('ab');
       expect(nameControl?.hasError('minlength')).toBe(true);
 
-      // Test maxLength validator
+
       nameControl?.setValue('a'.repeat(51));
       expect(nameControl?.hasError('maxlength')).toBe(true);
 
-      // Test valid value
       nameControl?.setValue('John Doe');
       expect(nameControl?.valid).toBe(true);
 
-      // Test email pattern validator
       emailControl?.setValue('invalid-email');
       expect(emailControl?.hasError('pattern')).toBe(true);
 
@@ -197,7 +195,7 @@ describe('DynamicFormService', () => {
   });
 
   describe('parseSubmittedFormData', () => {
-    it('should parse form data correctly', () => {
+    it('should parse form data correctly to emit', () => {
       const form = service.buildForm(mockSimpleSchema);
       form.patchValue({
         name: 'John Doe',
@@ -249,7 +247,7 @@ describe('DynamicFormService', () => {
       expect(parsedData.find(d => d.fieldName === 'subscribe')?.value).toBe(true);
     });
 
-    it('should return empty object for non-existent fields', () => {
+    it('should return empty object for fields having empty values', () => {
       const schema: FormSchema = {
         title: 'Test',
         fields: []
@@ -283,33 +281,27 @@ describe('DynamicFormService', () => {
     });
   });
 
-  describe('Integration Tests', () => {
-    it('should build and validate a complete form workflow', () => {
-      const form = service.buildForm(mockSchemaWithValidation);
+  it('should build and validate a complete form workflow', () => {
+    const form = service.buildForm(mockSchemaWithValidation);
 
-      // Initially invalid (required fields empty)
-      expect(form.valid).toBe(false);
+    expect(form.valid).toBe(false);
 
-      // Fill with invalid data
-      form.patchValue({
-        username: 'ab', // Too short
-        phone: '123', // Invalid pattern
-        website: 'not-a-url'
-      });
-      expect(form.valid).toBe(false);
-
-      // Fill with valid data
-      form.patchValue({
-        username: 'john_doe',
-        phone: '1234567890',
-        website: 'https://example.com'
-      });
-      expect(form.valid).toBe(true);
-
-      // Parse the data
-      const parsedData = service.parseSubmittedFormData(form, mockSchemaWithValidation);
-      expect(parsedData.length).toBe(3);
-      expect(parsedData.every(d => d.value !== '')).toBe(true);
+    form.patchValue({
+      username: 'ab',
+      phone: '123',
+      website: 'not-a-url'
     });
+    expect(form.valid).toBe(false);
+
+    form.patchValue({
+      username: 'john_doe',
+      phone: '1234567890',
+      website: 'https://example.com'
+    });
+    expect(form.valid).toBe(true);
+
+    const parsedData = service.parseSubmittedFormData(form, mockSchemaWithValidation);
+    expect(parsedData.length).toBe(3);
+    expect(parsedData.every(d => d.value !== '')).toBe(true);
   });
 });
