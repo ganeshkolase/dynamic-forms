@@ -109,7 +109,22 @@ export class SchemaFormComponent implements OnInit {
   onSubmit() {
     this.dynamicForm.markAllAsTouched();
     if (this.dynamicForm.valid) {
-      this.onFormSubmit.emit(this.dynamicForm.value);
+      let formData = Object.keys(this.dynamicForm.value).map((fieldName) => {
+        let field = this.formSchema.fields.find(field => field.name === fieldName);
+        if (field) {
+          return {
+            fieldName: fieldName,
+            label: field.label,
+            value: this.dynamicForm.value[fieldName],
+          }
+        }
+        return {
+          fieldName: "",
+          label: "",
+          value: "",
+        }
+      });
+      this.onFormSubmit.emit(formData);
     } else {
       console.error('Invalid form')
     }

@@ -22,10 +22,10 @@
   <p-dialog header="Form Details" [modal]="true" [(visible)]="visible" [style]="{ width: '40rem' }" [maximizable]="true" (close)="onClose()" >
     @if(modalFormData){
       <div class="modal-layout">
-      @for(field of modalFormData | keyvalue; track field.key) {
+      @for(field of modalFormData; track field.fieldName) {
         @if(field.value) {
           <div class="modal-data">
-            <label>{{field.key}}: </label> <span>{{field.value}}</span>
+            <label>{{field.label}}: </label> <span>{{field.value}}</span>
           </div>
         }
       }
