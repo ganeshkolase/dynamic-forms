@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Message} from 'primeng/message';
 import {FormField, FormSchema} from '../../schema/schema';
 import {InputText} from 'primeng/inputtext';
@@ -41,21 +41,11 @@ export class SchemaFormComponent implements OnInit {
   @Input() formSchema!: FormSchema
   dynamicForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) {
+  constructor(private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
     this.buildForm()
-    this.formSchema.fields.forEach(field => {
-      if (field.condition) {
-        const parentControl = this.dynamicForm.get(field.condition.fieldName);
-        if (parentControl) {
-          parentControl.valueChanges.subscribe(() => {
-            this.cdr.detectChanges();
-          });
-        }
-      }
-    });
   }
 
   private buildForm() {
