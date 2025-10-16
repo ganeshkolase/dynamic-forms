@@ -1,6 +1,5 @@
-# DynamicForms
-
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
+ # DynamicForms
+ 
 
 ## Overview
 
@@ -11,85 +10,161 @@ A dynamic schema-based JSON forms application built with Angular 19. This projec
 - Form validation (required, pattern, minLength, maxLength)
 - Custom validation messages
 - PrimeNG UI components
+- Automatic form reset after submission
 
-## Development server
+## Prerequisites
 
-To start a local development server, run:
+- **Node.js**: v20.19.0
+- **Angular CLI**: v19.0.0
+
+## Getting Started
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Run the Application
+
+Start the development server:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Or using npm:
 
 ```bash
-ng generate component component-name
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Navigate to `http://localhost:4200/` in your browser. The application will automatically reload when you modify source files.
 
-```bash
-ng generate --help
+## JSON Schema Format
+
+This application uses JSON schemas to dynamically generate forms. The schemas are located in `src/app/data/`.
+
+### Example 1: Basic Schema (Non-Conditional)
+
+**File:** `src/app/data/user-registration.json`
+
+```json
+{
+  "title": "User Registration Form",
+  "fields": [
+    {
+      "label": "Full Name",
+      "name": "fullName",
+      "type": "text",
+      "required": true
+    },
+    {
+      "label": "Email",
+      "name": "email",
+      "type": "text",
+      "required": true,
+      "validation": {
+        "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",
+        "message": "Invalid email address"
+      }
+    },
+    {
+      "label": "Gender",
+      "name": "gender",
+      "type": "dropdown",
+      "options": ["Male", "Female", "Other"],
+      "required": true
+    },
+    {
+      "label": "Hobbies",
+      "name": "hobbies",
+      "type": "multiselect",
+      "options": ["Reading", "Sports", "Music", "Travel"]
+    }
+  ]
+}
 ```
 
-## Building
+### Example 2: Conditional Schema
 
-To build the project run:
+**File:** `src/app/data/product-feedback.json`
 
-```bash
-ng build
+```json
+{
+  "title": "Job Application",
+  "fields": [
+    {
+      "label": "Job Role",
+      "name": "jobRole",
+      "type": "dropdown",
+      "required": true,
+      "options": ["Frontend Developer", "Backend Developer", "Designer", "Other"]
+    },
+    {
+      "label": "Please specify your role",
+      "name": "customRole",
+      "type": "text",
+      "required": true,
+      "condition": {
+        "fieldName": "jobRole",
+        "value": "Other"
+      }
+    },
+    {
+      "label": "Portfolio Link (Optional)",
+      "name": "portfolio",
+      "type": "text",
+      "validation": {
+        "pattern": "^(https?:\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/\\S*)?$",
+        "message": "Enter a valid URL"
+      }
+    }
+  ]
+}
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+**Key Concepts:**
+- **Basic Fields**: Define `label`, `name`, `type`, and optionally `required`
+- **Validation**: Use `validation.pattern` for regex validation with custom error messages
+- **Conditional Fields**: Use `condition` to show/hide fields based on another field's value
+  - `fieldName`: The field to watch
+  - `value`: The value that triggers visibility
+- **Field Types**: `text`, `email`, `date`, `dropdown`, `multiselect`, `checkbox`, `textarea`
 
-## Running unit tests
+## Running Tests
 
-This project has a comprehensive test suite with **71 test cases** and **98.93% code coverage**.
+This project has a comprehensive test suite with **59 test cases** and **98.93% code coverage**.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Run All Tests
 
 ```bash
 npm test
 ```
 
-### Test Coverage
-
-Run tests with coverage report:
+### Run Tests with Coverage Report
 
 ```bash
 npm test -- --code-coverage
 ```
 
-View the coverage report:
+### View Coverage Report
+
+After running tests with coverage, open the report:
+
 ```bash
+# On macOS/Linux
 open coverage/dynamic-forms/index.html
+
+# On Windows
+start coverage/dynamic-forms/index.html
 ```
 
-### Test Statistics
-- **Total Tests:** 71
-- **Statement Coverage:** 98.93%
-- **Branch Coverage:** 93.93%
-- **Function Coverage:** 100%
-- **Line Coverage:** 100%
-
-### Test Documentation
-- **[TESTING_QUICK_START.md](TESTING_QUICK_START.md)** - Quick reference guide
-- **[TEST_DOCUMENTATION.md](TEST_DOCUMENTATION.md)** - Comprehensive testing guide
-- **[TEST_SUMMARY.md](TEST_SUMMARY.md)** - Test results summary
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### Run Tests in Headless Mode (CI/CD)
 
 ```bash
-ng e2e
+npm test -- --watch=false --browsers=ChromeHeadless
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
 ## Project Structure
 
@@ -101,10 +176,10 @@ src/
 │   │   └── form-layout/            # Layout wrapper component
 │   ├── services/
 │   │   └── dynamic-form.service.ts # Form building & validation service
-│   ├── schema/
+│   ├── data/
 │   │   ├── schema.d.ts             # TypeScript type definitions
-│   │   ├── user-registration.json  # Sample schema
-│   │   └── product-feedback.json   # Sample schema
+│   │   ├── user-registration.json  # Sample schema (non-conditional)
+│   │   └── product-feedback.json   # Sample schema (conditional)
 │   ├── testing/
 │   │   └── mock-schemas.ts         # Mock data for tests
 │   └── app.component.ts            # Root component
@@ -112,27 +187,11 @@ src/
 └── tsconfig.spec.json              # TypeScript test configuration
 ```
 
-## Features
+## Feature
 
 ### Dynamic Form Generation
 - Create forms from JSON schemas
 - Support for multiple field types
 - Automatic form validation
+- Form automatically resets after successful submission
 
-### Conditional Fields
-- Show/hide fields based on other field values
-- Dynamic form control management
-
-### Validation
-- Built-in validators (required, pattern, minLength, maxLength)
-- Custom validation messages
-- Real-time validation feedback
-
-### Testing
-- Comprehensive unit tests (71 test cases)
-- High code coverage (98.93%)
-- Mock data utilities
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
