@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {SchemaFormComponent} from './components/schema-based-form/schema-form.component';
+import {DynamicSchemaFormComponent} from './components/dynamic-schema-form/dynamic-schema-form.component';
 import {FormLayoutComponent} from './components/form-layout/form-layout.component';
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from 'primeng/tabs';
 import {productFeedbackSchema, userRegistrationSchema} from './schema'
@@ -9,7 +9,7 @@ import {KeyValuePipe} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [SchemaFormComponent, FormLayoutComponent, Tabs, TabList, Tab, TabPanels, TabPanel, Dialog, KeyValuePipe],
+  imports: [DynamicSchemaFormComponent, FormLayoutComponent, Tabs, TabList, Tab, TabPanels, TabPanel, Dialog, KeyValuePipe],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.scss'

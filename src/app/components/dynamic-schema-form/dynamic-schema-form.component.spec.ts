@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SchemaFormComponent } from './schema-form.component';
+import { DynamicSchemaFormComponent } from './dynamic-schema-form.component';
 
 describe('SchemaBasedFormComponent', () => {
-  let component: SchemaFormComponent;
-  let fixture: ComponentFixture<SchemaFormComponent>;
+  let component: DynamicSchemaFormComponent;
+  let fixture: ComponentFixture<DynamicSchemaFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SchemaFormComponent]
+      imports: [DynamicSchemaFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SchemaFormComponent);
+    fixture = TestBed.createComponent(DynamicSchemaFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

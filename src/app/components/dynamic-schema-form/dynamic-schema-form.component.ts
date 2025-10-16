@@ -31,11 +31,11 @@ import {DynamicFormService} from '../../services/dynamic-form.service';
     Button,
     ReactiveFormsModule,
   ],
-  templateUrl: './schema-form.component.html',
+  templateUrl: './dynamic-schema-form.component.html',
   standalone: true,
-  styleUrl: './schema-form.component.scss'
+  styleUrl: './dynamic-schema-form.component.scss'
 })
-export class SchemaFormComponent implements OnInit {
+export class DynamicSchemaFormComponent implements OnInit {
   @Input() formSchema!: FormSchema
   @Output() onFormSubmit = new EventEmitter<Record<string, any>>();
   dynamicForm!: FormGroup;
