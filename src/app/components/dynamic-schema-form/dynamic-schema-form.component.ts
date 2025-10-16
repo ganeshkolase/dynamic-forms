@@ -76,6 +76,7 @@ export class DynamicSchemaFormComponent implements OnInit {
     if (this.dynamicForm.valid) {
       let formData = this.dynamicFormService.parseSubmittedFormData(this.dynamicForm, this.formSchema);
       this.onFormSubmit.emit(formData);
+      this.dynamicForm.reset();
     } else {
       console.error('Invalid form')
     }

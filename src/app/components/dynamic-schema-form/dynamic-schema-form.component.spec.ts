@@ -218,6 +218,23 @@ describe('DynamicSchemaFormComponent', () => {
       expect(component.dynamicForm.get('name')?.touched).toBe(true);
       expect(component.dynamicForm.get('email')?.touched).toBe(true);
     });
+
+    it('should reset form after successful submission', () => {
+      spyOn(component.onFormSubmit, 'emit');
+
+      component.dynamicForm.patchValue({
+        name: 'John Doe',
+        email: 'john@example.com'
+      });
+
+      expect(component.dynamicForm.get('name')?.value).toBe('John Doe');
+      expect(component.dynamicForm.get('email')?.value).toBe('john@example.com');
+
+      component.onSubmit();
+
+      expect(component.dynamicForm.get('name')?.value).toBeNull();
+      expect(component.dynamicForm.get('email')?.value).toBeNull();
+    });
   });
 
   describe('getError', () => {
