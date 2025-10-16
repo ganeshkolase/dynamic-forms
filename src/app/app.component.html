@@ -23,9 +23,11 @@
     @if(modalFormData){
       <div class="modal-layout">
       @for(field of modalFormData | keyvalue; track field.key) {
-        <div class="modal-data">
-          <label>{{field.key}}: </label> <span>{{field.value}}</span>
-        </div>
+        @if(field.value) {
+          <div class="modal-data">
+            <label>{{field.key}}: </label> <span>{{field.value}}</span>
+          </div>
+        }
       }
       </div>
     }
