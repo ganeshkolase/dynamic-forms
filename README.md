@@ -132,9 +132,23 @@ This application uses JSON schemas to dynamically generate forms. The schemas ar
   - `value`: The value that triggers visibility
 - **Field Types**: `text`, `email`, `date`, `dropdown`, `multiselect`, `checkbox`, `textarea`
 
-## Running Tests
+### Example Output
 
-This project has a comprehensive test suite with **59 test cases** and **98.93% code coverage**.
+When a user submits the form, the application displays the submitted data in a modal:
+
+![Form Output Example](docs/form-output-example.png)
+
+**Sample Output:**
+```
+Full Name: Ganesh Kolase
+Email: ganesh@example.com
+Date of Birth: Fri Oct 17 2025 00:00:00 GMT+0530 (India Standard Time)
+Gender: Male
+Hobbies: Reading, Music, Sports
+Subscribe to newsletter: true
+```
+
+## Running Tests
 
 ### Run All Tests
 
@@ -153,11 +167,7 @@ npm test -- --code-coverage
 After running tests with coverage, open the report:
 
 ```bash
-# On macOS/Linux
 open coverage/dynamic-forms/index.html
-
-# On Windows
-start coverage/dynamic-forms/index.html
 ```
 
 ### Run Tests in Headless Mode (CI/CD)

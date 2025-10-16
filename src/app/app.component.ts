@@ -2,14 +2,13 @@ import {Component} from '@angular/core';
 import {DynamicSchemaFormComponent} from './components/dynamic-schema-form/dynamic-schema-form.component';
 import {FormLayoutComponent} from './components/form-layout/form-layout.component';
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from 'primeng/tabs';
-import {productFeedbackSchema, userRegistrationSchema} from './data'
+import {jobApplicationSchema, userRegistrationSchema} from './data'
 import {FormSchema} from './data/schema';
 import {Dialog} from 'primeng/dialog';
-import {KeyValuePipe} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [DynamicSchemaFormComponent, FormLayoutComponent, Tabs, TabList, Tab, TabPanels, TabPanel, Dialog, KeyValuePipe],
+  imports: [DynamicSchemaFormComponent, FormLayoutComponent, Tabs, TabList, Tab, TabPanels, TabPanel, Dialog],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.scss'
@@ -17,7 +16,7 @@ import {KeyValuePipe} from '@angular/common';
 export class AppComponent {
   title = 'dynamic-forms';
   userRegistrationSchema = userRegistrationSchema as FormSchema;
-  productRegistrationSchema = productFeedbackSchema as FormSchema;
+  productRegistrationSchema = jobApplicationSchema as FormSchema;
   modalFormData: any = null
   visible: boolean = false;
 

@@ -1,6 +1,6 @@
 import userRegistrationSchema from './user-registration.json'
-import productFeedbackSchema from  './product-feedback.json'
+import jobApplicationSchema from  './job-application.json'
 
 
 
-export {userRegistrationSchema, productFeedbackSchema}
+export {userRegistrationSchema, jobApplicationSchema}
