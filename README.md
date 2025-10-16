@@ -88,7 +88,7 @@ This application uses JSON schemas to dynamically generate forms. The schemas ar
 
 ### Example 2: Conditional Schema
 
-**File:** `src/app/data/product-feedback.json`
+**File:** `src/app/data/job-application.json`
 
 ```json
 {
@@ -136,17 +136,7 @@ This application uses JSON schemas to dynamically generate forms. The schemas ar
 
 When a user submits the form, the application displays the submitted data in a modal:
 
-![Form Output Example](docs/form-output-example.png)
-
-**Sample Output:**
-```
-Full Name: Ganesh Kolase
-Email: ganesh@example.com
-Date of Birth: Fri Oct 17 2025 00:00:00 GMT+0530 (India Standard Time)
-Gender: Male
-Hobbies: Reading, Music, Sports
-Subscribe to newsletter: true
-```
+![img.png](img.png)
 
 ## Running Tests
 
