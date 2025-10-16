@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DynamicFormService } from './dynamic-form.service';
-import { FormField, FormSchema } from '../schema/schema';
+import { FormField, FormSchema } from '../data/schema';
 import {
   mockSimpleSchema,
   mockSchemaWithValidation,

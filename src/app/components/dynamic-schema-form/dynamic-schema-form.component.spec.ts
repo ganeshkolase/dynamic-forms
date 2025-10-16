@@ -9,7 +9,7 @@ import {
   mockSchemaWithMultipleFieldTypes,
   mockSchemaWithValidation
 } from '../../testing/mock-schemas';
-import { FormField } from '../../schema/schema';
+import { FormField } from '../../data/schema';
 
 describe('DynamicSchemaFormComponent', () => {
   let component: DynamicSchemaFormComponent;

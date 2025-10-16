@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Message} from 'primeng/message';
-import {FormField, FormSchema} from '../../schema/schema';
+import {FormField, FormSchema} from '../../data/schema';
 import {InputText} from 'primeng/inputtext';
 import {DatePicker} from 'primeng/datepicker';
 import {Select} from 'primeng/select';

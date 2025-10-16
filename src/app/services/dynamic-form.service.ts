@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {FormField, FormSchema} from '../schema/schema';
+import {FormField, FormSchema} from '../data/schema';
 
 @Injectable({
   providedIn: 'root'
