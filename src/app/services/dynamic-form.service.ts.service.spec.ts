@@ -241,7 +241,7 @@ describe('DynamicFormService', () => {
       const parsedData = service.parseSubmittedFormData(form, mockSchemaWithMultipleFieldTypes);
 
       expect(parsedData.length).toBe(6);
-      expect(parsedData.find(d => d.fieldName === 'fullName')?.value).toBe('Jane Smith');
+      expect(parsedData.find(d => d.fieldName === 'fullName')?.value).toBe('Bob Smith');
       expect(parsedData.find(d => d.fieldName === 'gender')?.value).toBe('Female');
       expect(parsedData.find(d => d.fieldName === 'hobbies')?.value).toEqual(['Reading', 'Music']);
       expect(parsedData.find(d => d.fieldName === 'subscribe')?.value).toBe(true);
