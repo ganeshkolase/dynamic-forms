@@ -2,8 +2,7 @@ import {Component} from '@angular/core';
 import {SchemaFormComponent} from './components/schema-based-form/schema-form.component';
 import {FormLayoutComponent} from './components/form-layout/form-layout.component';
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from 'primeng/tabs';
-import {userRegistrationSchema} from  './schema'
-import {productFeedbackSchema} from './schema'
+import {productFeedbackSchema, userRegistrationSchema} from './schema'
 import {FormSchema} from './schema/schema';
 import {Dialog} from 'primeng/dialog';
 import {KeyValuePipe} from '@angular/common';

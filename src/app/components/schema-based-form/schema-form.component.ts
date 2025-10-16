@@ -17,6 +17,7 @@ import {
 } from '@angular/forms';
 import {Textarea} from 'primeng/textarea';
 import {Button} from 'primeng/button';
+import {DynamicFormService} from '../../services/dynamic-form.service';
 
 
 @Component({
@@ -42,11 +43,11 @@ export class SchemaFormComponent implements OnInit {
   @Output() onFormSubmit = new EventEmitter<Record<string, any>>();
   dynamicForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private dynamicFormService: DynamicFormService) {
   }
 
   ngOnInit() {
-    this.buildForm()
+    this.dynamicForm = this.dynamicFormService.buildForm(this.formSchema);
 
     this.formSchema.fields.forEach(field => {
       if (field.condition) {
@@ -71,18 +72,7 @@ export class SchemaFormComponent implements OnInit {
       this.dynamicForm.removeControl(field.name);
     }
   }
-
-  private buildForm() {
-    const dynamicFormGroup: { [key: string]: FormControl } = {};
-
-    for (const field of this.formSchema.fields) {
-
-      let fieldValidators = this.getValidators(field);
-      dynamicFormGroup[field.name] = new FormControl('', fieldValidators);
-    }
-
-    this.dynamicForm = this.formBuilder.group(dynamicFormGroup);
-  }
+  
 
   private getValidators(field: FormField) {
     const validators: ValidatorFn[] = []
