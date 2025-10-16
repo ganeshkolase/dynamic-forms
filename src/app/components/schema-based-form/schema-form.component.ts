@@ -7,13 +7,10 @@ import {Select} from 'primeng/select';
 import {MultiSelect} from 'primeng/multiselect';
 import {Checkbox} from 'primeng/checkbox';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  ValidatorFn,
-  Validators
 } from '@angular/forms';
 import {Textarea} from 'primeng/textarea';
 import {Button} from 'primeng/button';
@@ -43,7 +40,7 @@ export class SchemaFormComponent implements OnInit {
   @Output() onFormSubmit = new EventEmitter<Record<string, any>>();
   dynamicForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private dynamicFormService: DynamicFormService) {
+  constructor(private dynamicFormService: DynamicFormService) {
   }
 
   ngOnInit() {
@@ -66,62 +63,22 @@ export class SchemaFormComponent implements OnInit {
     const controlExists = this.dynamicForm.contains(field.name);
 
     if (visible && !controlExists) {
-      this.dynamicForm.addControl(field.name, new FormControl('', this.getValidators(field)));
+      this.dynamicForm.addControl(field.name, new FormControl('', this.dynamicFormService.getValidators(field)));
     }
     else if (!visible && controlExists) {
       this.dynamicForm.removeControl(field.name);
     }
-  }
-  
-
-  private getValidators(field: FormField) {
-    const validators: ValidatorFn[] = []
-
-    if (field?.required) {
-      validators.push(Validators.required)
-    }
-    if (field?.validation) {
-      validators.push(Validators.pattern(field.validation.pattern))
-    }
-
-    if (field?.minLength) {
-      validators.push(Validators.minLength(field.minLength))
-    }
-
-    if (field?.maxLength) {
-      validators.push(Validators.maxLength(field.maxLength))
-    }
-
-    return validators
   }
 
 
   onSubmit() {
     this.dynamicForm.markAllAsTouched();
     if (this.dynamicForm.valid) {
-      let formData = this.parseSubmittedFormData();
+      let formData = this.dynamicFormService.parseSubmittedFormData(this.dynamicForm, this.formSchema);
       this.onFormSubmit.emit(formData);
     } else {
       console.error('Invalid form')
     }
-  }
-
-  private parseSubmittedFormData() {
-    return Object.keys(this.dynamicForm.value).map((fieldName) => {
-      let field = this.formSchema.fields.find(field => field.name === fieldName);
-      if (field) {
-        return {
-          fieldName: fieldName,
-          label: field.label,
-          value: this.dynamicForm.value[fieldName],
-        }
-      }
-      return {
-        fieldName: "",
-        label: "",
-        value: "",
-      }
-    });
   }
 
   getError(fieldName: string): string | null {

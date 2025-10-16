@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {FormBuilder, FormControl, ValidatorFn, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {FormField, FormSchema} from '../schema/schema';
 
 @Injectable({
@@ -9,7 +9,7 @@ export class DynamicFormService {
 
   constructor(private formBuilder: FormBuilder) { }
 
-  private getValidators(field: FormField) {
+  getValidators(field: FormField) {
     const validators: ValidatorFn[] = []
 
     if (field?.required) {
@@ -40,5 +40,23 @@ export class DynamicFormService {
     }
 
     return this.formBuilder.group(dynamicFormGroup);
+  }
+
+  public parseSubmittedFormData(dynamicForm:  FormGroup<any>, formSchema: FormSchema ) {
+    return Object.keys(dynamicForm.value).map((fieldName) => {
+      let field = formSchema.fields.find(field => field.name === fieldName);
+      if (field) {
+        return {
+          fieldName: fieldName,
+          label: field.label,
+          value: dynamicForm.value[fieldName],
+        }
+      }
+      return {
+        fieldName: "",
+        label: "",
+        value: "",
+      }
+    });
   }
 }
