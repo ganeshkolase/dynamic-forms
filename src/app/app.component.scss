@@ -1,0 +1,23 @@
+.modal-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  label, span {
+    font-size: 1rem;
+  }
+}
+
+.modal-data {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.modal-data label {
+  width: 16rem;
+  font-weight: bold;
+}
+
+.modal-data span {
+  flex: 1;
+}

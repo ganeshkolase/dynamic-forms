@@ -19,4 +19,15 @@
       </p-tabpanel>
     </p-tabpanels>
   </p-tabs>
+  <p-dialog header="Form Details" [modal]="true" [(visible)]="visible" [style]="{ width: '40rem' }" [maximizable]="true" (close)="onClose()" >
+    @if(modalFormData){
+      <div class="modal-layout">
+      @for(field of modalFormData | keyvalue; track field.key) {
+        <div class="modal-data">
+          <label>{{field.key}}: </label> <span>{{field.value}}</span>
+        </div>
+      }
+      </div>
+    }
+  </p-dialog>
 </app-form-layout>
