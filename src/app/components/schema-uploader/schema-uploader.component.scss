@@ -1,0 +1,220 @@
+.schema-uploader-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+
+  .upload-description {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .file-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid #0d6efd;
+
+    i {
+      color: #0d6efd;
+      font-size: 1.2rem;
+    }
+
+    span {
+      flex: 1;
+      font-weight: 500;
+    }
+  }
+
+  .schema-preview {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #198754;
+      font-size: 1.1rem;
+    }
+
+    .preview-content {
+      p {
+        margin: 0.5rem 0;
+        font-size: 0.95rem;
+
+        strong {
+          color: #495057;
+        }
+      }
+
+      .fields-list {
+        margin-top: 1rem;
+
+        h5 {
+          margin-bottom: 0.75rem;
+          color: #495057;
+          font-size: 1rem;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          li {
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.5rem;
+            background-color: white;
+            border-radius: 4px;
+            border-left: 3px solid #0d6efd;
+            font-size: 0.9rem;
+
+            .field-type {
+              color: #6c757d;
+              font-style: italic;
+            }
+
+            .required-badge {
+              display: inline-block;
+              margin-left: 0.5rem;
+              padding: 0.15rem 0.5rem;
+              background-color: #dc3545;
+              color: white;
+              border-radius: 12px;
+              font-size: 0.75rem;
+              font-weight: 600;
+            }
+
+            .conditional-badge {
+              display: inline-block;
+              margin-left: 0.5rem;
+              padding: 0.15rem 0.5rem;
+              background-color: #ffc107;
+              color: #000;
+              border-radius: 12px;
+              font-size: 0.75rem;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .validation-errors {
+    margin-top: 1.5rem;
+
+    .error-list {
+      background-color: #fff5f5;
+      border: 1px solid #feb2b2;
+      border-radius: 8px;
+      padding: 1rem;
+
+      .error-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        background-color: white;
+        border-radius: 4px;
+        border-left: 3px solid #dc3545;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        i {
+          color: #dc3545;
+          font-size: 1.1rem;
+          margin-top: 0.1rem;
+        }
+
+        .error-details {
+          flex: 1;
+          font-size: 0.9rem;
+
+          strong {
+            color: #721c24;
+            display: block;
+            margin-bottom: 0.25rem;
+          }
+
+          span {
+            color: #856404;
+          }
+        }
+      }
+    }
+  }
+
+  .schema-reference {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    max-width: 100%;
+    overflow: hidden;
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #495057;
+      font-size: 1rem;
+    }
+
+    pre {
+      margin: 0;
+      padding: 1rem;
+      background-color: #2d2d2d;
+      border-radius: 6px;
+      overflow-x: auto;
+      max-width: 100%;
+      box-sizing: border-box;
+
+      code {
+        color: #f8f8f2;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.75rem;
+        line-height: 1.5;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        display: block;
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .schema-uploader-container {
+    .p-card {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .p-card-body {
+      padding: 1.5rem;
+    }
+
+    .p-fileupload-choose {
+      margin-top: 0.5rem;
+    }
+
+    .p-fileupload {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}

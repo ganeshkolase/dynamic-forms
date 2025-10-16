@@ -9,6 +9,10 @@
         <i class="pi pi-send"></i>
         Job Application
       </p-tab>
+      <p-tab value="2">
+        <i class="pi pi-upload"></i>
+        Upload Schema
+      </p-tab>
     </p-tablist>
     <p-tabpanels>
       <p-tabpanel value="0">
@@ -16,6 +20,15 @@
       </p-tabpanel>
       <p-tabpanel value="1">
         <app-schema-based-form [formSchema]="productRegistrationSchema" (onFormSubmit)="onFormSubmit($event)" />
+      </p-tabpanel>
+      <p-tabpanel value="2">
+        <app-schema-uploader (schemaLoaded)="onSchemaLoaded($event)" />
+        @if (uploadedSchema) {
+          <div class="uploaded-form-section">
+            <h3>Preview Uploaded Schema Form</h3>
+            <app-schema-based-form [formSchema]="uploadedSchema" (onFormSubmit)="onFormSubmit($event)" />
+          </div>
+        }
       </p-tabpanel>
     </p-tabpanels>
   </p-tabs>

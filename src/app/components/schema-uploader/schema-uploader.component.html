@@ -1,0 +1,118 @@
+<div class="schema-uploader-container">
+  <p-card header="JSON Schema Uploader" [style]="{'margin-bottom': '2rem'}">
+    <p class="upload-description">
+      Upload a JSON file to validate against the FormSchema type definition.
+      The file must contain a valid schema with title and fields array.
+    </p>
+
+    <p-fileupload
+      mode="basic"
+      name="schemaFile"
+      accept=".json"
+      [maxFileSize]="1000000"
+      [auto]="true"
+      chooseLabel="Choose JSON File"
+      (onSelect)="onFileSelect($event)"
+      [customUpload]="true"
+      styleClass="p-button-outlined">
+    </p-fileupload>
+
+    @if (fileName) {
+      <div class="file-info">
+        <i class="pi pi-file"></i>
+        <span>{{ fileName }}</span>
+        <button
+          pButton
+          icon="pi pi-times"
+          class="p-button-text p-button-sm p-button-danger"
+          (click)="clearUpload()"
+          label="Clear">
+        </button>
+      </div>
+    }
+
+    @if (isValid && uploadedSchema) {
+      <p-message
+        severity="success"
+        text="✓ Schema is valid! The JSON file matches the FormSchema type definition."
+        [style]="{'margin-top': '1rem', 'display': 'block'}">
+      </p-message>
+
+      <div class="schema-preview">
+        <h4>Schema Preview</h4>
+        <div class="preview-content">
+          <p><strong>Title:</strong> {{ uploadedSchema.title }}</p>
+          <p><strong>Fields Count:</strong> {{ uploadedSchema.fields.length }}</p>
+          <div class="fields-list">
+            <h5>Fields:</h5>
+            <ul>
+              @for (field of uploadedSchema.fields; track field.name) {
+                <li>
+                  <strong>{{ field.label }}</strong>
+                  ({{ field.name }}) -
+                  <span class="field-type">{{ field.type }}</span>
+                  @if (field.required) {
+                    <span class="required-badge">Required</span>
+                  }
+                  @if (field.condition) {
+                    <span class="conditional-badge">Conditional</span>
+                  }
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Validation Error Messages -->
+    @if (!isValid && validationErrors.length > 0) {
+      <div class="validation-errors">
+        <p-message
+          severity="error"
+          text="✗ Schema validation failed. Please fix the following errors:"
+          [style]="{'margin-top': '1rem', 'margin-bottom': '1rem', 'display': 'block'}">
+        </p-message>
+
+        <div class="error-list">
+          @for (error of validationErrors; track error.path) {
+            <div class="error-item">
+              <i class="pi pi-times-circle"></i>
+              <div class="error-details">
+                <strong>{{ error.path }}:</strong>
+                <span>{{ error.message }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Schema Type Reference -->
+    <div class="schema-reference">
+      <h4>Expected Schema Format</h4>
+      <pre><code>{{'{
+  "title": "string",
+  "fields": [
+    {
+      "label": "string",
+      "name": "string",
+      "type": "text | email | date | dropdown | multiselect | checkbox | textarea | radiobutton",
+      "required": boolean (optional),
+      "minLength": number (optional),
+      "maxLength": number (optional),
+      "options": string[] (optional),
+      "validation": {
+        "pattern": "string",
+        "message": "string"
+      } (optional),
+      "condition": {
+        "fieldName": "string",
+        "value": any
+      } (optional)
+    }
+  ]
+}'}}</code></pre>
+    </div>
+  </p-card>
+</div>
